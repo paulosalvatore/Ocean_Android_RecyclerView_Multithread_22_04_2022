@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import retrofit2.Call
 import retrofit2.Callback
@@ -30,6 +32,9 @@ class MainActivity : AppCompatActivity() {
         val call = service.listarPokemon()
 
 //        val tvResultado = findViewById<TextView>(R.id.tvResultado)
+        val rvPokemon = findViewById<RecyclerView>(R.id.rvPokemon)
+
+        rvPokemon.layoutManager = LinearLayoutManager(this)
 
         call.enqueue(object : Callback<PokemonApiResult> {
             override fun onResponse(
@@ -40,7 +45,9 @@ class MainActivity : AppCompatActivity() {
                     val pokemonApiResult = response.body()
 
                     pokemonApiResult?.let {
-                        Toast.makeText(this@MainActivity, "Pokemon carregados com sucesso.", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@MainActivity, "Pokemón carregados com sucesso.", Toast.LENGTH_LONG).show()
+
+                        rvPokemon.adapter = PokemonAdapter(it.results)
 
 //                        tvResultado.text = ""
 //
