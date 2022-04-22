@@ -10,13 +10,17 @@ import com.bumptech.glide.Glide
 
 class PokemonAdapter(val itens: List<Pokemon>) : RecyclerView.Adapter<PokemonAdapter.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bindView(item: Pokemon) = with(itemView) {
+        fun bindView(item: Pokemon, position: Int) = with(itemView) {
             val tvNome = findViewById<TextView>(R.id.tvNome)
             val ivPokemon = findViewById<ImageView>(R.id.ivPokemon)
 
             tvNome.text = item.name
 
-            val urlImagem = "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/001.png"
+            val numero = position + 1
+            val numeroComTresDigitos = numero.toString().padStart(3, '0')
+            val nomeArquivo = "$numeroComTresDigitos.png"
+            val urlImagem = "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/$nomeArquivo"
+
             Glide.with(this).load(urlImagem).into(ivPokemon)
         }
     }
@@ -31,7 +35,7 @@ class PokemonAdapter(val itens: List<Pokemon>) : RecyclerView.Adapter<PokemonAda
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = itens[position]
-        holder.bindView(item)
+        holder.bindView(item, position)
     }
 
     override fun getItemCount(): Int {
